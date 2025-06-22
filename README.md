@@ -55,3 +55,8 @@ Engine	Description
 Base64	Encodes unique IDs using Base64 format to generate an 8-character short URL.
 MD5 Hash	Creates a hash of the original URL and trims it to the first 8 characters.
 UUID	Generates a random 8-character string using Java's UUID class.
+
+📊 **Analytics Dashboard**
+Static React pages are located under `src/main/resources/static`.
+- Open `http://localhost:8090/index.html` to shorten URLs.
+- The admin dashboard is available at `http://localhost:8090/dashboard.html` and is protected with HTTP basic authentication (`admin`/`password`).

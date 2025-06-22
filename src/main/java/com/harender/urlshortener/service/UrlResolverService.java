@@ -12,7 +12,12 @@ public class UrlResolverService {
     private UrlMappingRepository repository;
 
     public String resolveShortUrl(String shortUrl){
-        UrlMapping urlMapping = repository.findByShortUrl(shortUrl).orElseThrow(()-> new RuntimeException("URL not found"));
+        UrlMapping urlMapping = repository.findByShortUrl(shortUrl)
+                .orElseThrow(() -> new RuntimeException("URL not found"));
+
+        urlMapping.setHitCount(urlMapping.getHitCount() + 1);
+        repository.save(urlMapping);
+
         return urlMapping.getOriginalUrl();
     }
 }
