@@ -5,11 +5,12 @@
     <title>URL Shortener</title>
     <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
-    <script crossorigin src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 </head>
 <body>
 <div id="root"></div>
-<script type="text/babel">
+<script>
+const e = React.createElement;
+
 function App() {
   const [originalUrl, setOriginalUrl] = React.useState('');
   const [alias, setAlias] = React.useState('');
@@ -30,24 +31,33 @@ function App() {
     }
   };
 
-  return (
-    <div>
-      <h1>URL Shortener</h1>
-      <input placeholder="Original URL" value={originalUrl} onChange={e => setOriginalUrl(e.target.value)} />
-      <input placeholder="Alias (optional)" value={alias} onChange={e => setAlias(e.target.value)} />
-      <select value={engine} onChange={e => setEngine(e.target.value)}>
-        <option value="BASE64">BASE64</option>
-        <option value="MD5">MD5</option>
-        <option value="UUID">UUID</option>
-      </select>
-      <button onClick={submit}>Shorten</button>
-      {result && <p>Result: <a href={result}>{result}</a></p>}
-      <p><a href="/dashboard.html">Admin Dashboard</a></p>
-    </div>
+  return e('div', null,
+    e('h1', null, 'URL Shortener'),
+    e('input', {
+      placeholder: 'Original URL',
+      value: originalUrl,
+      onChange: e => setOriginalUrl(e.target.value)
+    }),
+    e('input', {
+      placeholder: 'Alias (optional)',
+      value: alias,
+      onChange: e => setAlias(e.target.value)
+    }),
+    e('select', {
+      value: engine,
+      onChange: e => setEngine(e.target.value)
+    },
+      e('option', { value: 'BASE64' }, 'BASE64'),
+      e('option', { value: 'MD5' }, 'MD5'),
+      e('option', { value: 'UUID' }, 'UUID')
+    ),
+    e('button', { onClick: submit }, 'Shorten'),
+    result && e('p', null, 'Result: ', e('a', { href: result }, result)),
+    e('p', null, e('a', { href: '/dashboard.html' }, 'Admin Dashboard'))
   );
 }
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(e(App), document.getElementById('root'));
 </script>
 </body>
 </html>

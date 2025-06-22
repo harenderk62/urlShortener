@@ -19,7 +19,17 @@ public class UrlResolverController {
 
     @GetMapping
     public void shortUrlResolver(@PathVariable String shortUrl, HttpServletResponse response) throws IOException {
-        String originalUrl = service.resolveShortUrl(shortUrl);
-        response.sendRedirect(originalUrl);
+        if(shortUrl == null || shortUrl.isEmpty()){
+            // Redirect to home page or index
+            response.sendRedirect("/");
+            return;
+        }
+        try {
+            String originalUrl = service.resolveShortUrl(shortUrl);
+            response.sendRedirect(originalUrl);
+        } catch (RuntimeException e) {
+            // Redirect to home page or custom error page on URL not found
+            response.sendRedirect("/");
+        }
     }
 }

@@ -5,11 +5,12 @@
     <title>Analytics Dashboard</title>
     <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
-    <script crossorigin src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 </head>
 <body>
 <div id="root"></div>
-<script type="text/babel">
+<script>
+const e = React.createElement;
+
 function Dashboard() {
   const [rows, setRows] = React.useState([]);
 
@@ -19,29 +20,32 @@ function Dashboard() {
       .then(setRows);
   }, []);
 
-  return (
-    <div>
-      <h1>Analytics</h1>
-      <table border="1">
-        <thead>
-          <tr><th>ID</th><th>Short</th><th>Original</th><th>Hits</th></tr>
-        </thead>
-        <tbody>
-          {rows.map(r => (
-            <tr key={r.id}>
-              <td>{r.id}</td>
-              <td>{r.shortUrl}</td>
-              <td>{r.originalUrl}</td>
-              <td>{r.hitCount}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+  return e('div', null,
+    e('h1', null, 'Analytics'),
+    e('table', { border: 1 },
+      e('thead', null,
+        e('tr', null,
+          e('th', null, 'ID'),
+          e('th', null, 'Short'),
+          e('th', null, 'Original'),
+          e('th', null, 'Hits')
+        )
+      ),
+      e('tbody', null,
+        rows.map(r =>
+          e('tr', { key: r.id },
+            e('td', null, r.id),
+            e('td', null, r.shortUrl),
+            e('td', null, r.originalUrl),
+            e('td', null, r.hitCount)
+          )
+        )
+      )
+    )
   );
 }
 
-ReactDOM.render(<Dashboard />, document.getElementById('root'));
+ReactDOM.render(e(Dashboard), document.getElementById('root'));
 </script>
 </body>
 </html>
