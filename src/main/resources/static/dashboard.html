@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Analytics Dashboard</title>
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+function Dashboard() {
+  const [rows, setRows] = React.useState([]);
+
+  React.useEffect(() => {
+    fetch('/api/analytics', { credentials: 'include' })
+      .then(res => res.json())
+      .then(setRows);
+  }, []);
+
+  return (
+    <div>
+      <h1>Analytics</h1>
+      <table border="1">
+        <thead>
+          <tr><th>ID</th><th>Short</th><th>Original</th><th>Hits</th></tr>
+        </thead>
+        <tbody>
+          {rows.map(r => (
+            <tr key={r.id}>
+              <td>{r.id}</td>
+              <td>{r.shortUrl}</td>
+              <td>{r.originalUrl}</td>
+              <td>{r.hitCount}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+ReactDOM.render(<Dashboard />, document.getElementById('root'));
+</script>
+</body>
+</html>

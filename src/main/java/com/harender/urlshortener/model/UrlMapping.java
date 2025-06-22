@@ -19,6 +19,7 @@ public class UrlMapping {
     private String shortUrl;
     private LocalDateTime createdAt;
     private LocalDateTime expiresAt;
+    private int hitCount;
 
     // Getters and setters
     public Long getId() {
@@ -59,5 +60,13 @@ public class UrlMapping {
 
     public void setExpiresAt(LocalDateTime expiresAt) {
         this.expiresAt = expiresAt;
+    }
+
+    public int getHitCount() {
+        return hitCount;
+    }
+
+    public void setHitCount(int hitCount) {
+        this.hitCount = hitCount;
     }
 }

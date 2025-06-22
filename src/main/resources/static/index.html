@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>URL Shortener</title>
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+function App() {
+  const [originalUrl, setOriginalUrl] = React.useState('');
+  const [alias, setAlias] = React.useState('');
+  const [engine, setEngine] = React.useState('BASE64');
+  const [result, setResult] = React.useState('');
+
+  const submit = async () => {
+    const response = await fetch('/api/shorten', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ originalUrl, alias, type: engine })
+    });
+    const data = await response.json();
+    if (response.ok) {
+      setResult(data.shortUrl);
+    } else {
+      setResult(data.message || 'Error');
+    }
+  };
+
+  return (
+    <div>
+      <h1>URL Shortener</h1>
+      <input placeholder="Original URL" value={originalUrl} onChange={e => setOriginalUrl(e.target.value)} />
+      <input placeholder="Alias (optional)" value={alias} onChange={e => setAlias(e.target.value)} />
+      <select value={engine} onChange={e => setEngine(e.target.value)}>
+        <option value="BASE64">BASE64</option>
+        <option value="MD5">MD5</option>
+        <option value="UUID">UUID</option>
+      </select>
+      <button onClick={submit}>Shorten</button>
+      {result && <p>Result: <a href={result}>{result}</a></p>}
+      <p><a href="/dashboard.html">Admin Dashboard</a></p>
+    </div>
+  );
+}
+
+ReactDOM.render(<App />, document.getElementById('root'));
+</script>
+</body>
+</html>
